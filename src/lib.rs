@@ -1,7 +1,7 @@
 use std::ffi::CStr;
 use std::os::raw::c_char;
 
-use tiff_wrap::*;
+mod any_wrap;
 mod tiff_wrap;
 
 /// Called in C#
@@ -38,7 +38,7 @@ pub extern "C" fn tiff_encode_16(
     let input_path = unsafe { CStr::from_ptr(input) }.to_str().unwrap();
     let output_path = unsafe { CStr::from_ptr(output) }.to_str().unwrap();
 
-    encode_from_file_16(input_path, output_path, width, min, max);
+    tiff_wrap::encode_from_file_16(input_path, output_path, width, min, max);
 }
 
 #[no_mangle]
@@ -46,5 +46,27 @@ pub extern "C" fn tiff_encode_8(input: *const c_char, output: *const c_char, wid
     let input_path = unsafe { CStr::from_ptr(input) }.to_str().unwrap();
     let output_path = unsafe { CStr::from_ptr(output) }.to_str().unwrap();
 
-    encode_from_file_8(input_path, output_path, width);
+    tiff_wrap::encode_from_file_8(input_path, output_path, width);
+}
+
+#[no_mangle]
+pub extern "C" fn any_encode_16(
+    input: *const c_char,
+    output: *const c_char,
+    width: u32,
+    min: u16,
+    max: u16,
+) {
+    let input_path = unsafe { CStr::from_ptr(input) }.to_str().unwrap();
+    let output_path = unsafe { CStr::from_ptr(output) }.to_str().unwrap();
+
+    any_wrap::encode_from_file_16(input_path, output_path, width, min, max);
+}
+
+#[no_mangle]
+pub extern "C" fn any_encode_8(input: *const c_char, output: *const c_char, width: u32) {
+    let input_path = unsafe { CStr::from_ptr(input) }.to_str().unwrap();
+    let output_path = unsafe { CStr::from_ptr(output) }.to_str().unwrap();
+
+    any_wrap::encode_from_file_8(input_path, output_path, width);
 }

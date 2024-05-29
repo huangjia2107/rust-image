@@ -9,4 +9,5 @@ edition = "2021"
 crate-type = ["cdylib"]
 
 [dependencies]
+image = "0.25.1"
 tiff = "0.9.1"
